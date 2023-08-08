@@ -1,0 +1,31 @@
+.popup__exit-button{
+    cursor: pointer;
+    height: 32px;
+    width: 32px;
+    background-image: url(../../../images/close_icon.svg);
+    background-size: cover;
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    z-index: 1;
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+    transition: .2s;
+}
+@media screen and (max-width: 530px){
+    .popup__exit-button{
+        height: 25px;
+        width: 25px;
+        top: -24;
+        right: 0; 
+    }
+}
+@media screen and (max-width: 450px){
+    .popup__exit-button{
+        height: 20px;
+        width: 20px;
+        top: -16;
+        right: 0;
+    }
+}

@@ -1,0 +1,17 @@
+.profile__avatar-container{
+    background-color: #000;
+    background-image: url(../../../images/edit_profile.svg);
+    background-position: 50%;
+    background-repeat: no-repeat;
+    border-radius: 100%;
+    height: 120px;
+    width: 120px;
+}
+.profile__avatar-container:hover{
+    cursor: pointer;
+}
+@media screen and (max-width: 597px){
+    .profile__avatar-container{
+        margin: 0;
+    }
+}
