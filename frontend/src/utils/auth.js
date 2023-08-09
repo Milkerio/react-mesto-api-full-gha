@@ -9,6 +9,7 @@ function checkStatus(res) {
 export const register = (password, email) => {
   return fetch(`${BASE_URL}/signup`, {
     method: "POST",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },

@@ -9,7 +9,7 @@ const { NODE_ENV, JWT_SECRET } = require('../constants/constants');
 
 module.exports.getAllUsers = (req, res, next) => {
   User.find({})
-    .then((users) => res.send({ data: users }))
+    .then((users) => res.send(users))
     .catch(next);
 };
 module.exports.getUserById = (req, res, next) => {
@@ -18,7 +18,7 @@ module.exports.getUserById = (req, res, next) => {
       if (!user) {
         throw new ErrorNotFound('Пользователь не найден.');
       }
-      res.send({ data: user });
+      res.send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -67,7 +67,7 @@ module.exports.updateProfile = (req, res, next) => {
   const { name, about } = req.body;
   const owner = req.user._id;
   User.findByIdAndUpdate(owner, { name, about }, { new: true, runValidators: true })
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new ErrorValidation('Переданы некорректные данные.'));
@@ -80,7 +80,7 @@ module.exports.updateAvatar = (req, res, next) => {
   const { avatar } = req.body;
   const owner = req.user._id;
   User.findByIdAndUpdate(owner, { avatar }, { new: true, runValidators: true })
-    .then((user) => res.status(201).send({ data: user }))
+    .then((user) => res.status(201).send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new ErrorValidation('Переданы некорректные данные.'));
@@ -115,7 +115,7 @@ module.exports.getUserInfo = (req, res, next) => {
       if (!user) {
         throw new ErrorNotFound('Пользователь не найден.');
       }
-      res.send({ data: user });
+      res.send(user);
     })
     .catch(next);
 };
