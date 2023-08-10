@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
 const cors = require('cors');
 const auth = require('./middlewares/auth');
@@ -11,10 +12,11 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT = 3000 } = process.env;
 const app = express();
-app.use(cors({ origin: ['http://localhost:3001'], credentials: true }));
+app.use(cors({ origin: ['http://localhost:3001', 'https://mlkr.students.nomoreparties.co', 'http://mlkr.students.nomoreparties.co'], credentials: true }));
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(helmet());
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,

@@ -2,7 +2,6 @@ import {apiSettings} from './utils.js';
 class Api{
     constructor(options){
         this._url = options.url;
-        this._headers = options.headers;
     }
 
     /* проверка на ошибки */
@@ -16,7 +15,6 @@ class Api{
     getInitialCards(){
         return fetch(`${this._url}/cards`, {
             credentials: "include",
-            headers: this._headers,
         })
         .then(res => this._checkError(res))
     }
@@ -25,7 +23,9 @@ class Api{
         return fetch(`${this._url}/cards`, {
             credentials: "include",
             method: 'POST',
-            headers: this._headers,
+            headers: {
+                'Content-Type': 'application/json',
+            },
             body: JSON.stringify({
                 name: data.name,
                 link: data.link
@@ -38,14 +38,12 @@ class Api{
         return fetch(`${this._url}/cards/${cardId}`, {
           credentials: "include",
           method: 'DELETE',
-          headers: this._headers,
         })
         .then(res => this._checkError(res))
     }
     getUserInfo(){
         return fetch(`${this._url}/users/me`, {
             credentials: "include",
-            headers: this._headers,
         })
         .then(res => this._checkError(res))
     }
@@ -53,7 +51,9 @@ class Api{
         return fetch(`${this._url}/users/me`, {
             credentials: "include",
             method: 'PATCH',
-            headers: this._headers,
+            headers: {
+                'Content-Type': 'application/json',
+            },
             body: JSON.stringify({
                 name: data.name,
                 about: data.about
@@ -65,7 +65,9 @@ class Api{
         return fetch(`${this._url}/users/me/avatar`, {
             credentials: "include",
             method: 'PATCH',
-            headers: this._headers,
+            headers: {
+                'Content-Type': 'application/json',
+            },
             body: JSON.stringify({
                 avatar: data.avatar
             })
@@ -77,7 +79,9 @@ class Api{
             return fetch(`${this._url}/cards/${cardId}/likes`, {
                 credentials: "include",
                 method: 'DELETE',
-                headers: this._headers,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
             })
             .then(res => this._checkError(res))
         }
@@ -85,7 +89,9 @@ class Api{
             return fetch(`${this._url}/cards/${cardId}/likes`, {
                 credentials: "include",
                 method: 'PUT',
-                headers: this._headers,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
             })
             .then(res => this._checkError(res))
         }

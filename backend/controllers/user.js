@@ -5,7 +5,8 @@ const ErrorValidation = require('../errors/errorValidation');
 const ErrorNotFound = require('../errors/errorNotFound');
 const ErrorUnauthorized = require('../errors/errorUnauthorized');
 const ErrorConflict = require('../errors/errorConflict');
-const { NODE_ENV, JWT_SECRET } = require('../constants/constants');
+
+// const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.getAllUsers = (req, res, next) => {
   User.find({})
@@ -44,11 +45,7 @@ module.exports.createUser = (req, res, next) => {
       User.create({
         name, about, avatar, email, password: hash,
       })
-        .then(() => res.status(200).send({
-          data: {
-            name, about, avatar, email,
-          },
-        }))
+        .then((data) => res.status(200).send(data))
         .catch((err) => {
           if (err.code === 11000) {
             next(new ErrorConflict('Пользователь с данным email уже существует.'));
@@ -96,14 +93,16 @@ module.exports.login = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        NODE_ENV === 'production' ? JWT_SECRET : 'secret',
+        // NODE_ENV === 'production' ? JWT_SECRET : 'secret',
+        'secret',
+        { expiresIn: '7d' },
       );
       res.cookie('jwt', token, {
         httpOnly: true,
         sameSite: true,
         maxAge: 3600000 * 24 * 7,
       });
-      res.send({ token });
+      res.send(user);
     })
     .catch(() => {
       next(new ErrorUnauthorized('Вы не авторизовались.'));

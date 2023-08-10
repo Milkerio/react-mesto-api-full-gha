@@ -11,6 +11,6 @@
 
 IP-адрес x.x.x.x
 
-Frontend https://...
+Frontend https://mlkr.students.nomoreparties.co
 
-Backend https://...
+Backend https://api.mlkr.students.nomoreparties.co

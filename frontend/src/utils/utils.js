@@ -1,10 +1,6 @@
-
-  /* API */
+ /* API */
 const apiSettings = {
-  url: 'http://localhost:3000',
-  headers: {
-    authorization: `Bearer ${localStorage.getItem('jwt')}`,
-    'Content-Type': 'application/json'
-  }
+  url: 'https://api.mlkr.students.nomoreparties.co',
+  //url: 'http://localhost:3000',
 }
 export {apiSettings};

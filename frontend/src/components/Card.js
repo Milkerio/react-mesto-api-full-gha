@@ -3,11 +3,11 @@ import React from "react";
 
 function Card(props) {
   const currentUser = React.useContext(CurrentUserContext);
-  const isOwn = props.card.owner._id === currentUser._id;
-  const isLiked = props.card.likes.some((card) => card._id === currentUser._id);
-  const cardLikeButtonClassName = `button elements__like-button ${
+  const isOwn = props.card.owner === currentUser._id;
+  const isLiked = props.card.likes.some((card) => card === currentUser._id);
+  const cardLikeButtonClassName = (`button elements__like-button ${
     isLiked && "elements__like-button_active"
-  }`;
+  }`);
   function handleLikeClick() {
     props.onCardLike(props.card);
   }

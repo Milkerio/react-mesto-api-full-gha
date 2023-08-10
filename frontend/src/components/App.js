@@ -34,7 +34,8 @@ function App() {
 
   const navigate = useNavigate();
   React.useEffect(() => {
-    if (loggedIn === true) {
+    const token = localStorage.getItem('userId');
+    if (token) {
       Promise.all([api.getUserInfo(), api.getInitialCards()])
         .then(([user, card]) => {
           setCurrentUser(user);
@@ -43,6 +44,19 @@ function App() {
         .catch((err) => console.log(err));
     }
   }, [loggedIn]);
+  React.useEffect(() => {
+    const token = localStorage.getItem('userId');
+    if (token) {
+      auth
+        .getContent(token)
+        .then((res) => {
+          setLoggedIn(true);
+          setEmail(res.email);
+          navigate("/", { replace: true });
+        })
+        .catch(err => console.log(err));
+    }
+  }, [navigate]);
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
   }
@@ -66,7 +80,7 @@ function App() {
     setIsImagePopupOpen(true);
   }
   function handleCardLike(card) {
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    const isLiked = card.likes.some((i) => i === currentUser._id);
 
     api
       .changeLikeCardStatus(card._id, isLiked)
@@ -112,37 +126,6 @@ function App() {
       })
       .catch((err) => console.log(err));
   }
-  /* React.useEffect(() => {
-    const jwt = localStorage.getItem("jwt");
-    if (jwt) {
-      auth
-        .getContent(jwt)
-        .then((res) => {
-          setLoggedIn(true);
-          setEmail(res.data.email);
-          navigate("/");
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [loggedIn]);
-  function checkToken() {
-    
-  }
-  React.useEffect(() => {
-    checkToken();
-  }, []); */
-  React.useEffect(() => {
-    if (localStorage.getItem('jwt')) {
-      const jwt = localStorage.getItem('jwt');
-      auth.getContent(jwt)
-        .then((res) => {
-          setLoggedIn(true);
-          setEmail(res.data.email);
-          navigate("/", { replace: true });
-        })
-        .catch(err => console.log(err));
-    }
-  }, [navigate]);
   function handleRegistration(password, email) {
     auth
       .register(password, email)
@@ -160,9 +143,8 @@ function App() {
       .authorize(password, email)
       .then((res) => {
         setLoggedIn(true);
-        localStorage.setItem("jwt", res.token);
         setEmail(email);
-        navigate("/");
+        navigate("/", { replace: true });
       })
       .catch((err) => {
         console.log(err);
@@ -180,7 +162,7 @@ function App() {
     setTooltipIcon("unsuccess");
   }
   function signout() {
-    localStorage.removeItem("jwt");
+    localStorage.removeItem('userId');
     setLoggedIn(false);
     navigate("/sign-in");
   }
