@@ -45,7 +45,11 @@ module.exports.createUser = (req, res, next) => {
       User.create({
         name, about, avatar, email, password: hash,
       })
-        .then((data) => res.status(200).send(data))
+        .then(() => res.status(200).send({
+          data: {
+            name, about, avatar, email,
+          },
+        }))
         .catch((err) => {
           if (err.code === 11000) {
             next(new ErrorConflict('Пользователь с данным email уже существует.'));
@@ -77,7 +81,7 @@ module.exports.updateAvatar = (req, res, next) => {
   const { avatar } = req.body;
   const owner = req.user._id;
   User.findByIdAndUpdate(owner, { avatar }, { new: true, runValidators: true })
-    .then((user) => res.status(201).send(user))
+    .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new ErrorValidation('Переданы некорректные данные.'));
@@ -102,7 +106,7 @@ module.exports.login = (req, res, next) => {
         sameSite: true,
         maxAge: 3600000 * 24 * 7,
       });
-      res.send(user);
+      res.send({ token });
     })
     .catch(() => {
       next(new ErrorUnauthorized('Вы не авторизовались.'));
