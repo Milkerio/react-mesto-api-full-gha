@@ -9,7 +9,7 @@
 
 ## Ссылки на проект
 
-IP-адрес 158.160.21.189
+IP 158.160.21.189
 
 Frontend https://mlkr.students.nomoreparties.co
 
