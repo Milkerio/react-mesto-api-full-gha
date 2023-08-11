@@ -2,7 +2,7 @@
   "name": "mesto-react",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://Milkerio.github.io/react-mesto-auth",
+  "homepage": "https://mlkr.students.nomoreparties.co",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -14,8 +14,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "npm run build && scp -r ./build/* milkerio@158.160.21.189:/home/milkerio/react-mesto-api-full-gha/frontend/build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

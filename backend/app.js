@@ -22,9 +22,9 @@ const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
 });
-app.use(limiter);
 
 app.use(requestLogger);
+app.use(limiter);
 app.use(require('./routes/authorize'));
 
 app.get('/crash-test', () => {
